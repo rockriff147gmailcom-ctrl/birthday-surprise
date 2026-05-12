@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Birthday Surprise</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+    body{
+      height:100vh;
+      overflow:hidden;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+      background:linear-gradient(135deg,#ff4e8a,#ff758c,#ffb199);
+      position:relative;
+    }
+
+    /* Animated Background */
+
+    body::before{
+      content:'';
+      position:absolute;
+      width:200%;
+      height:200%;
+      background:
+      radial-gradient(circle,rgba(255,255,255,0.2) 10%,transparent 10%);
+      background-size:40px 40px;
+      animation:bgMove 20s linear infinite;
+      z-index:-1;
+    }
+
+    @keyframes bgMove{
+      100%{
+        transform:translate(-200px,-200px);
+      }
+    }
+
+    /* Title */
+
+    h1{
+      color:white;
+      font-size:3.5rem;
+      text-shadow:0 0 20px white;
+      animation:glow 2s infinite alternate;
+      text-align:center;
+      margin-bottom:15px;
+    }
+
+    @keyframes glow{
+      from{
+        text-shadow:0 0 10px white;
+      }
+      to{
+        text-shadow:0 0 30px #ff0066;
+      }
+    }
+
+    /* Typing */
+
+    .typing{
+      color:white;
+      font-size:1.2rem;
+      margin-bottom:25px;
+      font-weight:500;
+      height:30px;
+    }
+
+    /* Gift Box */
+
+    .gift-box{
+      width:220px;
+      cursor:pointer;
+      animation:float 2s ease-in-out infinite;
+      transition:0.4s;
+      filter:drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    }
+
+    .gift-box:hover{
+      transform:scale(1.1) rotate(5deg);
+    }
+
+    @keyframes float{
+      0%,100%{
+        transform:translateY(0);
+      }
+      50%{
+        transform:translateY(-15px);
+      }
+    }
+
+    /* Love Tap Button */
+
+    .tap-love{
+      margin-top:20px;
+      padding:14px 30px;
+      border-radius:50px;
+      background:white;
+      color:#ff0066;
+      font-size:20px;
+      font-weight:bold;
+      box-shadow:0 0 20px rgba(255,255,255,0.8);
+      animation:pulse 1.2s infinite;
+      cursor:pointer;
+    }
+
+    @keyframes pulse{
+      0%{
+        transform:scale(1);
+      }
+      50%{
+        transform:scale(1.1);
+      }
+      100%{
+        transform:scale(1);
+      }
+    }
+
+    /* Surprise */
+
+    .surprise{
+      display:none;
+      flex-direction:column;
+      align-items:center;
+      animation:zoom 1s ease;
+    }
+
+    @keyframes zoom{
+      from{
+        transform:scale(0);
+        opacity:0;
+      }
+      to{
+        transform:scale(1);
+        opacity:1;
+      }
+    }
+
+    /* Photo */
+
+    .photo{
+      width:170px;
+      height:170px;
+      border-radius:50%;
+      object-fit:cover;
+      border:6px solid white;
+      margin-bottom:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.4);
+      animation:rotatePhoto 7s linear infinite;
+    }
+
+    @keyframes rotatePhoto{
+      100%{
+        transform:rotate(360deg);
+      }
+    }
+
+    /* Letter */
+
+    .letter{
+      width:350px;
+      background:rgba(255,255,255,0.96);
+      padding:30px;
+      border-radius:25px;
+      text-align:center;
+      box-shadow:0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .letter h2{
+      color:#ff0066;
+      margin-bottom:15px;
+      font-size:2rem;
+    }
+
+    .letter p{
+      color:#444;
+      line-height:1.8;
+      font-size:1.1rem;
+    }
+
+    /* Hearts */
+
+    .heart{
+      position:absolute;
+      color:red;
+      animation:fall linear forwards;
+      pointer-events:none;
+    }
+
+    @keyframes fall{
+      0%{
+        transform:translateY(-10vh);
+        opacity:1;
+      }
+      100%{
+        transform:translateY(110vh);
+        opacity:0;
+      }
+    }
+
+    /* Firework */
+
+    .firework{
+      position:absolute;
+      width:10px;
+      height:10px;
+      background:white;
+      border-radius:50%;
+      animation:explode 1s ease-out forwards;
+    }
+
+    @keyframes explode{
+      100%{
+        transform:scale(20);
+        opacity:0;
+      }
+    }
+
+    @media(max-width:500px){
+
+      h1{
+        font-size:2.5rem;
+      }
+
+      .gift-box{
+        width:180px;
+      }
+
+      .letter{
+        width:90%;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <h1>🎂 Happy Birthday 🎉</h1>
+
+  <div class="typing" id="typing"></div>
+
+  <!-- Gift Box -->
+  <img
+    src="https://cdn-icons-png.flaticon.com/512/3468/3468377.png"
+    class="gift-box"
+    id="gift"
+  >
+
+  <!-- Love Tap -->
+  <div class="tap-love">
+    ❤️ TAP FOR LOVE SURPRISE ❤️
+  </div>
+
+  <!-- Surprise -->
+  <div class="surprise" id="surprise">
+
+    <!-- Friend Photo -->
+    <img
+      src="orpi photo.jpeg.jpeg"
+      class="photo"
+    >
+
+    <!-- Letter -->
+    <div class="letter">
+
+      <h2>💌 Special Message for my cutie orpi</h2>
+
+      <p>
+        Happy Birthday To You 🎂❤️ <br>
+        My Dear Best Partner orpi, amr cutie lokkhi nunu bow😊💖 <br><br>
+
+        tumi amr jibone onek special jani naa bhogoban tomake ki diye banaiche 💕🧔‍♀️🎀✨ <br>
+        ami bhogoban er kache amr lokki bower janno eita chai tumi jeno sobsomoi hashi khushi tako tmr jeno life a kono pain naa thake✨🌸 <br>
+        ar tumi sob kicu jeno paw shusto thako healthy thako amr thako😊🥰 💕 <br><br>
+
+        sudu ajker din naa jibone proti ta din jeno tmr janno sudu amr lokkhi bow janno valo jai kono kostu naa thak amr bower eita bhogoban er kache kamona kori😫😫🥹 🎉
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- Happy Birthday Music -->
+  <audio id="birthdaySong">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Boom Sound -->
+  <audio id="boomSound">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+
+    // Typing Effect
+
+    const text = " Cute Surprise Is Waiting For my cuite bow  ❤️";
+    let i = 0;
+
+    function typing(){
+
+      if(i < text.length){
+
+        document.getElementById("typing").innerHTML += text.charAt(i);
+
+        i++;
+
+        setTimeout(typing,70);
+
+      }
+
+    }
+
+    typing();
+
+    // Elements
+
+    const gift = document.getElementById("gift");
+    const surprise = document.getElementById("surprise");
+    const song = document.getElementById("birthdaySong");
+    const boom = document.getElementById("boomSound");
+
+    // Gift Click
+
+    gift.addEventListener("click",()=>{
+
+      // Play Boom Sound
+      boom.play();
+
+      // Play Birthday Song
+      song.play();
+
+      // Hide Gift
+      gift.style.display = "none";
+
+      document.querySelector(".tap-love").style.display = "none";
+
+      // Show Surprise
+      surprise.style.display = "flex";
+
+      // Effects
+      createHearts();
+      createFireworks();
+
+    });
+
+    // Hearts
+
+    function createHearts(){
+
+      setInterval(()=>{
+
+        const heart = document.createElement("div");
+
+        heart.classList.add("heart");
+
+        heart.innerHTML = "❤️";
+
+        heart.style.left = Math.random()*100 + "vw";
+
+        heart.style.fontSize = (Math.random()*20 + 20) + "px";
+
+        heart.style.animationDuration =
+        (Math.random()*3 + 2) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+          heart.remove();
+        },5000);
+
+      },300);
+
+    }
+
+    // Fireworks
+
+    function createFireworks(){
+
+      setInterval(()=>{
+
+        const firework = document.createElement("div");
+
+        firework.classList.add("firework");
+
+        firework.style.left =
+        Math.random()*100 + "vw";
+
+        firework.style.top =
+        Math.random()*100 + "vh";
+
+        document.body.appendChild(firework);
+
+        setTimeout(()=>{
+          firework.remove();
+        },1000);
+
+      },400);
+
+    }
+
+  </script>
+
+</body>
+</html>
